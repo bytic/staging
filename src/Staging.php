@@ -68,8 +68,8 @@ class Staging
      */
     public function determineStageFromConf()
     {
-        if ($this->getConfig()->has('STAGE') && $this->getConfig()->get('STAGE')->has('current')) {
-            return $this->getConfig()->get('STAGE')->get('current');
+        if ($this->getConfig()->has('staging.current')) {
+            return $this->getConfig()->get('staging.current');
         }
 
         return false;
@@ -92,14 +92,7 @@ class Staging
      */
     public function initConfig()
     {
-        $config = new Config();
-        if ($this->hasConfigFile('staging.ini')) {
-            $config->mergeFile($this->getConfigFolder() . 'staging.ini');
-        }
-
-        if ($this->hasConfigFile('stage.ini')) {
-            $config->mergeFile($this->getConfigFolder() . 'stage.ini');
-        }
+        $config = \config();
 
         return $config;
     }
@@ -126,19 +119,19 @@ class Staging
      */
     public function determineStageFromHOST()
     {
-        $_stage = false;
+        $returnStage = false;
         if (isset($_SERVER['SERVER_NAME'])) {
             foreach ($this->getStages() as $stage => $hosts) {
                 foreach ($hosts as $host) {
                     if ($this->matchHost($host, $_SERVER['SERVER_NAME'])) {
-                        $_stage = $stage;
+                        $returnStage = $stage;
                         break 2;
                     }
                 }
             }
         }
 
-        return $_stage;
+        return $returnStage;
     }
 
     /**
