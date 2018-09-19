@@ -2,15 +2,17 @@
 
 namespace Nip\Staging;
 
-use Nip\Container\ServiceProvider\AbstractSignatureServiceProvider;
+use Nip\Container\ServiceProviders\Providers\AbstractSignatureServiceProvider;
 
 /**
- * Class MailServiceProvider.
+ * Class MailServiceProvider
+ * @package Nip\Staging
  */
 class StagingServiceProvider extends AbstractSignatureServiceProvider
 {
+
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function register()
     {
@@ -20,11 +22,11 @@ class StagingServiceProvider extends AbstractSignatureServiceProvider
     protected function registerStaging()
     {
         $staging = new Staging();
-        $this->getContainer()->singleton('staging', $staging);
+        $this->getContainer()->share('staging', $staging);
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function provides()
     {

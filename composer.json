@@ -19,8 +19,9 @@
   },
   "require": {
     "php": "^7.0",
-    "bytic/config": "^0.9",
-    "bytic/http": "^0.9"
+    "bytic/container": "^1.0",
+    "bytic/config": "^1.0",
+    "bytic/http": "^1.0"
   },
   "require-dev": {
     "squizlabs/php_codesniffer": "^3.0",

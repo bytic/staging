@@ -7,7 +7,8 @@ use Nip\Request;
 use Nip\Staging\Staging;
 
 /**
- * Class Stage.
+ * Class Stage
+ * @package Nip\Staging\Stage
  */
 class Stage
 {
@@ -35,7 +36,7 @@ class Stage
         $hosts = $this->getConfig()->get('HOST.url');
 
         if (strpos($hosts, ',')) {
-            $hosts = array_map('trim', explode(',', $hosts));
+            $hosts = array_map("trim", explode(',', $hosts));
         } else {
             $hosts = [trim($hosts)];
         }
@@ -81,7 +82,6 @@ class Stage
 
     /**
      * @param $hosts
-     *
      * @return $this
      */
     public function setHosts($hosts)
@@ -98,7 +98,6 @@ class Stage
 
     /**
      * @param $name
-     *
      * @return $this
      */
     public function setName($name)
@@ -114,7 +113,7 @@ class Stage
     public function isCurrent()
     {
         foreach ($this->hosts as $host) {
-            if (preg_match('/^'.strtr($host, ['*' => '.*', '?' => '.?']).'$/i', $_SERVER['SERVER_NAME'])) {
+            if (preg_match('/^' . strtr($host, ['*' => '.*', '?' => '.?']) . '$/i', $_SERVER['SERVER_NAME'])) {
                 return true;
             }
         }
@@ -128,7 +127,7 @@ class Stage
     public function getBaseURL()
     {
         if (!$this->baseURL) {
-            $this->baseURL = $this->getHTTP().$this->getHost().$this->getProjectDir();
+            $this->baseURL = $this->getHTTP() . $this->getHost() . $this->getProjectDir();
         }
 
         return $this->baseURL;
@@ -140,11 +139,11 @@ class Stage
     public function getHTTP()
     {
         $https = false;
-        if (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on') {
+        if (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == "on") {
             $https = true;
         }
 
-        return 'http'.($https ? 's' : '').'://';
+        return "http" . ($https ? "s" : "") . "://";
     }
 
     /**
@@ -230,7 +229,6 @@ class Stage
 
     /**
      * @param Staging $manager
-     *
      * @return $this
      */
     public function setManager($manager)
@@ -288,7 +286,7 @@ class Stage
      */
     protected function getConfigPath()
     {
-        return $this->getConfigFolder().$this->name.'.ini';
+        return $this->getConfigFolder() . $this->name . '.ini';
     }
 
     /**
