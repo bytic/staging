@@ -4,6 +4,8 @@ namespace Nip\Staging\Stage;
 
 use Nip\Config\Config;
 use Nip\Request;
+use Nip\Staging\Stage\Traits\HasConfigTrait;
+use Nip\Staging\Stage\Traits\SchemeTrait;
 use Nip\Staging\Staging;
 
 /**
@@ -11,6 +13,9 @@ use Nip\Staging\Staging;
  */
 class Stage
 {
+    use HasConfigTrait;
+    use SchemeTrait;
+    
     protected $manager;
 
     protected $name;
@@ -25,11 +30,6 @@ class Stage
 
     protected $projectDIR;
 
-    /**
-     * @var Config
-     */
-    protected $config;
-
     public function init()
     {
         $hosts = $this->getConfig()->get('HOST.url');
@@ -42,42 +42,6 @@ class Stage
         $this->setHosts($hosts);
     }
 
-    /**
-     * @return Config
-     */
-    public function getConfig()
-    {
-        if (!$this->config) {
-            $this->initConfig();
-        }
-
-        return $this->config;
-    }
-
-    /**
-     * @param Config $config
-     */
-    public function setConfig($config)
-    {
-        $this->config = $config;
-    }
-
-    public function initConfig()
-    {
-        $config = $this->newConfig();
-        if ($this->hasConfigFile()) {
-            $config->mergeFile($this->getConfigPath());
-        }
-        $this->setConfig($config);
-    }
-
-    /**
-     * @return Config
-     */
-    public function newConfig()
-    {
-        return new Config();
-    }
 
     /**
      * @param $hosts
@@ -132,19 +96,6 @@ class Stage
         }
 
         return $this->baseURL;
-    }
-
-    /**
-     * @return string
-     */
-    public function getHTTP()
-    {
-        $https = false;
-        if (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on') {
-            $https = true;
-        }
-
-        return 'http'.($https ? 's' : '').'://';
     }
 
     /**
@@ -273,29 +224,5 @@ class Stage
     public function doAuthorize()
     {
         setcookie('authorized', 'true', time() + 60 * 60 * 24, '/');
-    }
-
-    /**
-     * @return bool
-     */
-    protected function hasConfigFile()
-    {
-        return is_file($this->getConfigPath());
-    }
-
-    /**
-     * @return string
-     */
-    protected function getConfigPath()
-    {
-        return $this->getConfigFolder().$this->name.'.ini';
-    }
-
-    /**
-     * @return null
-     */
-    protected function getConfigFolder()
-    {
-        return defined('CONFIG_STAGING_PATH') ? CONFIG_STAGING_PATH : null;
     }
 }
