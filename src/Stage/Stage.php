@@ -15,7 +15,7 @@ class Stage
 {
     use HasConfigTrait;
     use SchemeTrait;
-    
+
     protected $manager;
 
     protected $name;
@@ -78,7 +78,7 @@ class Stage
     public function isCurrent()
     {
         foreach ($this->hosts as $host) {
-            if (preg_match('/^'.strtr($host, ['*' => '.*', '?' => '.?']).'$/i', $_SERVER['SERVER_NAME'])) {
+            if (preg_match('/^' . strtr($host, ['*' => '.*', '?' => '.?']) . '$/i', $_SERVER['SERVER_NAME'])) {
                 return true;
             }
         }
@@ -92,7 +92,7 @@ class Stage
     public function getBaseURL()
     {
         if (!$this->baseURL) {
-            $this->baseURL = $this->getHTTP().$this->getHost().$this->getProjectDir();
+            $this->baseURL = $this->getHTTP() . $this->getHost() . $this->getProjectDir();
         }
 
         return $this->baseURL;
