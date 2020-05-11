@@ -11,6 +11,7 @@ use Nip\Staging\Stage\Stage;
 class Staging
 {
     use Staging\HasCurrentStage;
+    use Staging\HasConfig;
 
     /**
      * @var Stage[]
@@ -27,7 +28,7 @@ class Staging
     public function getStage()
     {
         if (!$this->stage) {
-            $stage = $this->determineStage();
+            $stage = strtolower($this->determineStage());
             $this->updateStage($stage);
         }
 
@@ -58,7 +59,7 @@ class Staging
     public function determineStageFromConf()
     {
         if ($this->getConfig()->has('app.env')) {
-            return $this->getConfig()->get('staging.current');
+            return $this->getConfig()->get('staging.env');
         }
 
         if ($this->getConfig()->has('staging.current')) {
