@@ -2,10 +2,7 @@
 
 namespace Nip\Staging\Stage;
 
-use Nip\Config\Config;
 use Nip\Request;
-use Nip\Staging\Stage\Traits\HasConfigTrait;
-use Nip\Staging\Stage\Traits\SchemeTrait;
 use Nip\Staging\Staging;
 
 /**
@@ -13,16 +10,15 @@ use Nip\Staging\Staging;
  */
 class Stage
 {
-    use HasConfigTrait;
-    use SchemeTrait;
+    use Traits\HasConfigTrait;
+    use Traits\HasHosts;
+    use Traits\SchemeTrait;
 
     protected $manager;
 
     protected $name;
 
     protected $type = null;
-
-    protected $hosts;
 
     protected $host;
 
@@ -32,27 +28,7 @@ class Stage
 
     public function init()
     {
-        $hosts = $this->getConfig()->get('HOST.url');
-
-        if (strpos($hosts, ',')) {
-            $hosts = array_map('trim', explode(',', $hosts));
-        } else {
-            $hosts = [trim($hosts)];
-        }
-        $this->setHosts($hosts);
-    }
-
-
-    /**
-     * @param $hosts
-     *
-     * @return $this
-     */
-    public function setHosts($hosts)
-    {
-        $this->hosts = $hosts;
-
-        return $this;
+        $this->initHostsFromConfig();
     }
 
     public function getName()

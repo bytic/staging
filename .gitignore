@@ -1,6 +1,6 @@
 .idea/
+.phpunit.result.cache
 
 vendor/*
 
 tests/_output/*
-/.phpunit.result.cache

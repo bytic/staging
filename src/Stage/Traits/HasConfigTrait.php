@@ -10,12 +10,10 @@ use Nip\Config\Config;
  */
 trait HasConfigTrait
 {
-
     /**
      * @var Config
      */
     protected $config;
-
 
     /**
      * @return Config
