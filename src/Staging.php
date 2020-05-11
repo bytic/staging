@@ -11,12 +11,7 @@ use Nip\Staging\Stage\Stage;
  */
 class Staging
 {
-
-    /**
-     * @var Stage
-     */
-    protected $stage;
-
+    use Staging\HasCurrentStage;
 
     /**
      * @var Stage[]
@@ -184,35 +179,6 @@ class Staging
     public function matchHost($key, $host)
     {
         return preg_match('/^' . strtr($key, ['*' => '.*', '?' => '.?']) . '$/i', $host);
-    }
-
-    /**
-     * @param $name
-     * @return $this
-     */
-    public function updateStage($name)
-    {
-        $this->stage = $this->newStage($name);
-
-        return $this;
-    }
-
-    /**
-     * @param $name
-     * @return Stage
-     */
-    public function newStage($name)
-    {
-        $stage = new Stage();
-        $stage->setManager($this);
-        $stage->setName($name);
-
-        $stages = $this->getStages();
-        if (isset($stages[$name])) {
-            $stage->setHosts($stages[$name]);
-        }
-
-        return $stage;
     }
 
     /**

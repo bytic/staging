@@ -27,21 +27,6 @@ class Stage
 
     protected $projectDIR;
 
-    public function init()
-    {
-        $this->initHostsFromConfig();
-    }
-
-    /**
-     * @param $hosts
-     * @return $this
-     */
-    public function setHosts($hosts)
-    {
-        $this->hosts = $hosts;
-
-        return $this;
-    }
 
     public function getName()
     {
@@ -105,7 +90,7 @@ class Stage
     {
         if (!$this->host) {
             if ($this->getConfig()->has('HOST.automatic') && $this->getConfig()->get('HOST.automatic') === false) {
-                $this->host = reset($this->hosts);
+                $this->host = reset($this->getHosts());
             }
 
             if (!$this->host) {
