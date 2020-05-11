@@ -59,7 +59,7 @@ class Staging
     public function determineStageFromConf()
     {
         if ($this->getConfig()->has('app.env')) {
-            return $this->getConfig()->get('staging.env');
+            return $this->getConfig()->get('app.env');
         }
 
         if ($this->getConfig()->has('staging.current')) {
