@@ -2,7 +2,6 @@
 
 namespace Nip\Staging;
 
-use Nip\Config\Config;
 use Nip\Staging\Stage\Stage;
 
 /**
@@ -17,11 +16,6 @@ class Staging
      * @var Stage[]
      */
     protected $stages = null;
-
-    /**
-     * @var Config
-     */
-    protected $config;
 
     protected $publicStages = ['production', 'staging', 'demo'];
 
@@ -55,7 +49,7 @@ class Staging
             return $stage;
         }
 
-        return 'local';
+        return 'production';
     }
 
     /**
@@ -63,50 +57,15 @@ class Staging
      */
     public function determineStageFromConf()
     {
+        if ($this->getConfig()->has('app.env')) {
+            return $this->getConfig()->get('staging.current');
+        }
+
         if ($this->getConfig()->has('staging.current')) {
             return $this->getConfig()->get('staging.current');
         }
 
         return false;
-    }
-
-    /**
-     * @return Config
-     */
-    public function getConfig()
-    {
-        if (!$this->config) {
-            $this->config = $this->initConfig();
-        }
-
-        return $this->config;
-    }
-
-    /**
-     * @return Config
-     */
-    public function initConfig()
-    {
-        $config = \config();
-
-        return $config;
-    }
-
-    /**
-     * @param string $file
-     * @return bool
-     */
-    protected function hasConfigFile($file)
-    {
-        return is_file($this->getConfigFolder() . $file);
-    }
-
-    /**
-     * @return null
-     */
-    protected function getConfigFolder()
-    {
-        return defined('CONFIG_PATH') ? CONFIG_PATH : null;
     }
 
     /**

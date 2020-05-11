@@ -5,6 +5,10 @@ namespace Nip\Staging\Staging;
 use Nip\Staging\Stage\Stage;
 use Nip\Staging\Staging;
 
+/**
+ * Trait HasCurrentStage
+ * @package Nip\Staging\Staging
+ */
 trait HasCurrentStage
 {
 
