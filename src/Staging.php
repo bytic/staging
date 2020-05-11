@@ -148,21 +148,32 @@ class Staging
 
     protected function initStages()
     {
-        $stageObj = $this->getConfig()->get('HOSTS');
-        if ($stageObj) {
-            $this->stages = $stageObj->toArray();
-            if (is_array($this->stages)) {
-                foreach ($this->stages as &$stage) {
-                    if (strpos($stage, ',')) {
-                        $stage = array_map("trim", explode(',', $stage));
-                    } else {
-                        $stage = [trim($stage)];
-                    }
-                }
-            }
-        } else {
-            $this->stages = [];
+        $this->stages = $this->generateStages();
+    }
+
+    /**
+     * @return array
+     */
+    protected function generateStages()
+    {
+        if ($this->getConfig()->has('HOSTS') == false) {
+            return [];
         }
+
+        $stageObj = $this->getConfig()->get('HOSTS');
+        $stages = $stageObj->toArray();
+        if (!is_array($stages)) {
+            return [];
+        }
+
+        foreach ($stages as &$stage) {
+            if (strpos($stage, ',')) {
+                $stage = array_map("trim", explode(',', $stage));
+            } else {
+                $stage = [trim($stage)];
+            }
+        }
+        return $stages;
     }
 
     /**

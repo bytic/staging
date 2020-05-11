@@ -5,7 +5,6 @@ namespace Nip\Staging\Tests;
 use Nip\Config\Config;
 use Nip\Staging\Stage\Stage;
 use Nip\Staging\Staging;
-use Nip\Staging\Tests\AbstractTest;
 
 /**
  * Class StagingTest
@@ -54,7 +53,7 @@ class StagingTest extends AbstractTest
         static::assertFalse($newStage->isPublic());
     }
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
         $this->object = new Staging();
