@@ -18,8 +18,8 @@
     }
   },
   "require": {
-    "php": "^7.0",
-    "bytic/container": "^0.9|^1.0",
+    "php": "^7.0|^8.0",
+    "bytic/container": "^0.9|^1.0|^2.0",
     "bytic/config": "^0.9|^1.0",
     "bytic/http": "^0.9|^1.0"
   },
